@@ -4,8 +4,9 @@
 
 {!! Form::open(['url' => '/register']) !!}
 
-<h2>新規ユーザー登録</h2>
+<h2 class="welcome new-user">新規ユーザー登録</h2>
 
+<div class="login-form">
 {{ Form::label('user name') }}
 {{ Form::text('username',null,['required','class' => 'input']) }}
 
@@ -18,10 +19,10 @@
 {{ Form::label('password comfirm') }}
 {{ Form::password('password-confirm',null,['required','class' => 'input']) }}
 
-{{ Form::submit('REGISTER') }}
+{{ Form::submit('REGISTER',['class' => 'submit']) }}
 
-<p><a href="/login">ログイン画面へ戻る</a></p>
-
+<p class="to-register"><a href="/"  class="link-register">ログイン画面へ戻る</a></p>
+</div>
 {!! Form::close() !!}
 
 

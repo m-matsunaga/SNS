@@ -31,17 +31,17 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/register';
+    // protected $redirectTo = '/register';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest');
+    // }
 
     /**
      * Get a validator for an incoming registration request.
@@ -67,42 +67,45 @@ class RegisterController extends Controller
      * @return \App\User
      */
 
-    //新規登録処理
-   protected function post(Request $request)
-    {
+
+
+    ///// 新規登録処理 /////
+
+   protected function register(Request $request){
+       //バリデーション
         $validatedData = Validator::make($request->all(),[
             'username' => 'required|max:12|min:2',
             'mail' => 'required|email|max:40|min:5|unique:users',
             'password' => 'required|min:8|max:20|',
             'password-confirm' => 'required|same:password'
         ]);
+        //バリデーション失敗
+    if ($validatedData->fails()) {
 
-        if ($validatedData->fails()) {
             echo '新規登録に失敗しました';
-  } else {
 
-    $validated = $validatedData->validate();
+    } else {
+        //登録処理
+            $validated = $validatedData->validate();
 
-        $username = $validated['username'];
-        $mail = $validated['mail'];
-        $password = $validated['password'];
+            $username = $validated['username'];
+            $mail = $validated['mail'];
+            $password = $validated['password'];
 
-    \DB::table('users')->insert([
-            'username' => $username,
-            'mail' => $mail,
-            'password' => $password
-        ]);
+            \DB::table('users')->insert([
+                'username' => $username,
+                'mail' => $mail,
+                'password' => bcrypt($password),
+            ]);
 
-        return view('auth.added');
-  }
-
+            return view('auth.added',compact('username'));
+        }
     }
 
-
-    public function redirectPath()
-    {
-        return '/login';
-    }
+    // public function redirectPath()
+    // {
+    //     return '/login';
+    // }
 
 
     public function createForm(){
@@ -112,6 +115,7 @@ class RegisterController extends Controller
     public function createDone(){
         return view('auth.added');
     }
+
 }
 
 // \DB::table('users')->insert([

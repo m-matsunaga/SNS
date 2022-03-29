@@ -11,43 +11,80 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 // Route::get('/home', 'HomeController@index')->name('home');
 
 //Auth::routes();
 
 
 //ログアウト中のページ
-Route::get('/login', 'Auth\LoginController@loginPage');
-Route::post('/login', 'Auth\LoginController@loginPage');
 
-Route::get('/auth/login', 'Auth\LoginController@login');
-Route::post('/auth/login', 'Auth\LoginController@login');
+// Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
+
+// Route::post('/login', 'Auth\LoginController@showLoginForm');
+// Route::get('/login', 'Auth\LoginController@showLoginForm');
+
+// Route::get('/auth/login', 'Auth\LoginController@login');
+// Route::post('/auth/login', 'Auth\LoginController@login');
 
 
-Route::get('/register', 'Auth\RegisterController@post');
-Route::post('/register', 'Auth\RegisterController@post');
+//// Login前
+Route::group(['middleware' => ['guest']], function () {
 
-// Route::post('/register', 'UsersController@post');
-// Route::get('/register', 'Auth\UsersController@post');
+    // Login
+    Route::get('/','Auth\AuthController@showLogin')->name('showLogin');
+    Route::get('login','Auth\AuthController@login')->name('login');
+    Route::post('login','Auth\AuthController@login')->name('login');
 
-Route::get('/added', 'Auth\RegisterController@createDone');
-Route::post('/added', 'Auth\RegisterController@createDone');
+    // Register
+    Route::get('/register', 'Auth\RegisterController@register');
+    Route::post('/register', 'Auth\RegisterController@register');
+    Route::get('/register/form', 'Auth\RegisterController@createForm');
 
-Route::get('/register/form', 'Auth\RegisterController@createForm');
+    // Add
+    Route::get('/added', 'Auth\RegisterController@createDone');
+    Route::post('/added', 'Auth\RegisterController@createDone');
 
-//ログイン中のページ
-Route::get('/top','PostsController@index');
+});
 
-Route::get('/profile','UsersController@profile');
+//// Login中
+Route::group(['middleware' => ['auth']], function () {
 
-Route::get('/search','UsersController@index');
+    //Home
+    Route::get('/home','PostsController@index')->name('home');
+    Route::post('/home','PostsController@index')->name('home');
 
-Route::get('/follow-list','PostsController@index');
-Route::get('/follower-list','PostsController@index');
+    //logout
+    Route::get('logout','Auth\AuthController@logout')->name('logout');
 
-//user新規登録関連
-Route::post('/user/create','RegisterController@create');
-Route::post('/user/register','RegisterController@register');
+    //profile
+    Route::get('/profile','UsersController@profile');
+
+    //search
+    Route::get('/user/search','UsersController@search');
+    Route::post('/user/search','UsersController@search');
+
+    //posts
+    Route::post('/post/create','PostsController@create');
+    Route::post('/post/{id}/update','PostsController@update')->name('posts.update');
+
+    //delete
+    Route::get('post/{id}/delete', 'PostsController@delete');
+
+    // follow
+    Route::get('/user/{followId}/un_follow', 'UsersController@unFollow');
+    Route::get('/user/{followId}/to_follow', 'UsersController@toFollow');
+
+    // follow in profile
+    Route::get('/user/profile/{followId}/un_follow', 'UsersController@unFollowProfile');
+    Route::get('/user/profile/{followId}/to_follow', 'UsersController@toFollowProfile');
+
+    // follow List
+    Route::get('/follow-list','PostsController@follows');
+    Route::get('/follower-list','PostsController@followers');
+
+    // profile
+    Route::get('/profile/{userID}','UsersController@profile');
+    Route::get('/profile','UsersController@myProfile');
+    Route::post('/profile/edit','UsersController@profileEdit');
+
+});

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\AlphaRule;
 
 class ValidationRequest extends FormRequest
 {
@@ -25,9 +26,9 @@ class ValidationRequest extends FormRequest
     {
         return [
             //
-            'username' => 'required|string|max:12|min:2',
-            'mail' => 'required|string|email|max:40|min:5|unique:users',
-            'password' => 'required|string|min:8|max:20|confirmed'
+            'mail' => 'required|max:40',
+            'password' => 'required',
+            'images' => 'regex:/^[a-zA-Z0-9\.]+$/u|mimes:png,jpg,gif,bmp,svg'
         ];
     }
 }

@@ -1,3 +1,6 @@
+<script>
+    const postID = @json($postsLists);
+</script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,18 +24,22 @@
 </head>
 <body>
     <header>
-        <div id = "head">
-        <h1><a><img src="images/logo.png"></a></h1>
-            <div id="">
-                <div id="">
-                    <p>〇〇さん<img src="images/arrow.png"></p>
-                <div>
-                <ul>
-                    <li><a href="/top">ホーム</a></li>
-                    <li><a href="/profile">プロフィール</a></li>
-                    <li><a href="/logout">ログアウト</a></li>
-                </ul>
+        <div class = "head">
+            <h1><a href="/home"><img src="{{ asset('images/atlas.png') }}" class="logo"></a></h1>
+            <div class="head-menu">
+                <div class="head-name">
+                    <p>{{ Auth::user()->username}}さん</p>
+                    <div class ="arrow"></div>
+                    <img src="{{ asset('/storage/'.Auth::user()->images) }}" class="icon">
+                </div>
             </div>
+        </div>
+        <div class="head-accordion">
+            <ul>
+                <li><a href="/home" class="li-link">HOME</a></li>
+                <li class="li-blue"><a href="/profile" class="li-white">プロフィール編集</a></li>
+                <li><a href="/logout" class="li-link">ログアウト</a></li>
+            </ul>
         </div>
     </header>
     <div id="row">
@@ -41,24 +48,24 @@
         </div >
         <div id="side-bar">
             <div id="confirm">
-                <p>〇〇さんの</p>
-                <div>
-                <p>フォロー数</p>
-                <p>〇〇名</p>
+                <p class="side-name">{{ Auth::user()->username}}さんの</p>
+                <div class="follows">
+                    <p class="follows-num">フォロー数</p>
+                    <p>{{$following}}名</p>
                 </div>
-                <p class="btn"><a href="">フォローリスト</a></p>
-                <div>
-                <p>フォロワー数</p>
-                <p>〇〇名</p>
+                <p class="btn follows-list"><a href="/follow-list" class="side-btn">フォローリスト</a></p>
+                <div class="follows">
+                    <p class="follows-num">フォロワー数</p>
+                    <p>{{$followed}}名</p>
                 </div>
-                <p class="btn"><a href="">フォロワーリスト</a></p>
+                <p class="btn follows-list"><a href="/follower-list" class="side-btn">フォロワーリスト</a></p>
             </div>
-            <p class="btn"><a href="">ユーザー検索</a></p>
+            <p class="btn search"><a href="/user/search" class="side-btn">ユーザー検索</a></p>
         </div>
     </div>
     <footer>
     </footer>
-    <script src="JavaScriptファイルのURL"></script>
-    <script src="JavaScriptファイルのURL"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="{{ asset('js/index.js') }}"></script>
 </body>
 </html>
