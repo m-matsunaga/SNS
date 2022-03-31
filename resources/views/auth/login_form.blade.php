@@ -21,7 +21,7 @@
 @endif
 <div class="login-form">
 {{ Form::label('mail adress') }}
-{{ Form::text('mail',null,['class' => 'input']) }}
+{{ Form::text('mail',old('mail'),['class' => 'input']) }}
 {{ Form::label('password') }}
 {{ Form::password('password',['class' => 'input']) }}
 {{ Form::submit('LOGIN',['class' => 'submit']) }}

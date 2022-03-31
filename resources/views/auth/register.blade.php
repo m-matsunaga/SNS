@@ -6,12 +6,22 @@
 
 <h2 class="welcome new-user">新規ユーザー登録</h2>
 
+@if ($errors->any())
+    <div class="alert alert-danger mt-3">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <div class="login-form">
 {{ Form::label('user name') }}
-{{ Form::text('username',null,['required','class' => 'input']) }}
+{{ Form::text('username',old('username'),['required','class' => 'input']) }}
 
 {{ Form::label('mail adress') }}
-{{ Form::text('mail',null,['required','class' => 'input']) }}
+{{ Form::text('mail',old('mail'),['required','class' => 'input']) }}
 
 {{ Form::label('password') }}
 {{ Form::password('password',null,['required','class' => 'input']) }}

@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         return back()->withErrors([
             'login_error' => 'メールアドレスかパスワードが間違っています'
-        ]);
+        ])->withInput();
     }
 
     //ログアウト

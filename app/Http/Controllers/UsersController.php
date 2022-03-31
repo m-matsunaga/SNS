@@ -188,7 +188,7 @@ class UsersController extends Controller
 
         //バリデーションNGの場合
         if($val->fails()){
-            return back()->withErrors($val);
+            return back()->withErrors($val)->withInput();
 
         //バリデーション成功の場合
         } else {

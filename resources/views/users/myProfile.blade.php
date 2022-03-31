@@ -22,12 +22,12 @@
           <!-- username -->
           <div class="edit-content">
           {{ Form::label('username', 'user name', ['class'=>'edit-label']) }}
-          {!! Form::text('username', Auth::user()->username, ['required', 'class' => 'edit-form', 'placeholder' => 'ユーザー  名を入力してください']) !!}
+          {!! Form::text('username', old('username',Auth::user()->username), ['required', 'class' => 'edit-form', 'placeholder' => 'ユーザー  名を入力してください']) !!}
           </div>
           <!-- mail address -->
           <div class="edit-content">
           {{ Form::label('mail', 'mail address', ['class'=>'edit-label']) }}
-          {!! Form::text('mail', Auth::user()->mail, ['required', 'class' => 'edit-form', 'placeholder' => 'メールアドレスを入  力してください']) !!}
+          {!! Form::text('mail', old('mail',Auth::user()->mail), ['required', 'class' => 'edit-form', 'placeholder' => 'メールアドレスを入  力してください']) !!}
           </div>
           <div class="edit-content">
           {{ Form::label('password', 'password', ['class'=>'edit-label']) }}
@@ -39,7 +39,7 @@
           </div>
           <div class="edit-content profile-textarea">
           {{ Form::label('bio', 'bio', ['class'=>'edit-label']) }}
-          {!! Form::textarea('bio', Auth::user()->bio, ['class' => 'edit-form edit-textarea', 'placeholder' => 'bioを入力してく ださい']) !!}
+          {!! Form::textarea('bio', old('bio',Auth::user()->bio), ['class' => 'edit-form edit-textarea', 'placeholder' => 'bioを入力してく ださい']) !!}
           </div>
           <div class="edit-content">
           {{ Form::label('images', 'icon image', ['class'=>'edit-label']) }}

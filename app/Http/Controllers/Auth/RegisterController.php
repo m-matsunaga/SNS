@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Http\Requests\NewRegister;
 // use App\Http\Requests\ValidationRequest;
 
 class RegisterController extends Controller
@@ -71,26 +72,11 @@ class RegisterController extends Controller
 
     ///// 新規登録処理 /////
 
-   protected function register(Request $request){
-       //バリデーション
-        $validatedData = Validator::make($request->all(),[
-            'username' => 'required|max:12|min:2',
-            'mail' => 'required|email|max:40|min:5|unique:users',
-            'password' => 'required|min:8|max:20|',
-            'password-confirm' => 'required|same:password'
-        ]);
-        //バリデーション失敗
-    if ($validatedData->fails()) {
+   protected function register(NewRegister $request){
 
-            echo '新規登録に失敗しました';
-
-    } else {
-        //登録処理
-            $validated = $validatedData->validate();
-
-            $username = $validated['username'];
-            $mail = $validated['mail'];
-            $password = $validated['password'];
+            $username = $request->username;
+            $mail = $request->mail;
+            $password = $request->password;
 
             \DB::table('users')->insert([
                 'username' => $username,
@@ -100,7 +86,6 @@ class RegisterController extends Controller
 
             return view('auth.added',compact('username'));
         }
-    }
 
     // public function redirectPath()
     // {
@@ -116,7 +101,6 @@ class RegisterController extends Controller
         return view('auth.added');
     }
 
-}
 
 // \DB::table('users')->insert([
 //   'username' => $username,
@@ -181,6 +165,4 @@ class RegisterController extends Controller
 
     //     return view('auth.added');
     // }
-
-
-?>
+}
